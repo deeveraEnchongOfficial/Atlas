@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Modules\Auth\ApiKey\ApiKey;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {
@@ -44,5 +47,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory()
+    {
+        return UserFactory::new();
+    }
+
+    public function apiKeys(): HasMany
+    {
+        return $this->hasMany(ApiKey::class);
     }
 }

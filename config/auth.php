@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'jwt' => [
+        'algorithm' => env('JWT_ALGORITHM', 'RS512'),
+        'signature_key' => env('JWT_SIGNATURE_KEY'),
+        'signing_key' => env('JWT_SIGNING_KEY'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -36,9 +41,8 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+        'api' => [
+            'driver' => 'jwt',
         ],
     ],
 
@@ -62,7 +66,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', App\Modules\User\User::class),
         ],
 
         // 'users' => [
