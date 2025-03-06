@@ -11,12 +11,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('api_keys', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id(); // Uses bigint auto-increment
             $table->string('name');
             $table->string('mask')->unique();
             $table->text('value'); // Encrypted API key
             $table->string('hash')->unique(); // SHA-256 hash for verification
-            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('user_id'); // Match users.id type
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
